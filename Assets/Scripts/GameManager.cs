@@ -42,6 +42,11 @@ public class GameManager : MonoBehaviour
     /// Is the game lost?
     /// </summary>
     private bool mGameLost = false;
+    
+    /// <summary>
+    /// Is the game paused?
+    /// </summary>
+    private bool mGamePaused = false;
 
     /// <summary>
     /// Did we start the game?
@@ -93,6 +98,9 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("Cancel"))
         { ResetGame(); }
 
+        if (Input.GetKeyDown(KeyCode.M))
+        { MagicTrick(); } // for cheating ...because we know XD 
+        
         if (sGameStarted && !mGameLost)
         {
             // Increment the score by elapsed time.
@@ -154,8 +162,29 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the game to the "pause" state.
+    /// </summary>
+    ///
+    public void MagicTrick() //
+    {
+        if (mGamePaused == false)
+        {
+            var sp = spawner.GetComponent<Spawner>();
+            sp.spawnObstacles = false;
+            mGamePaused = true;
+        }
+        else
+        {
+            var sp = spawner.GetComponent<Spawner>();
+            sp.spawnObstacles = true;
+            mGamePaused = false;
+        }
+    }
+    
+    /// <summary>
     /// Set the game to the "lost" state.
     /// </summary>
+    ///
     public void LooseGame()
     {
         // Get the spawner script.

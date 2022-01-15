@@ -33,7 +33,10 @@ public class Spawner : MonoBehaviour
     /// <summary>
     /// Size of the spawned obstacles.
     /// </summary>
-    public float spawnSize = 1.0f;
+
+	public float sizeMean = 0.8f;
+	public float sizeStd = 0.2f;
+    private float spawnSize = 1.0f; //
     
     /// <summary>
     /// Layer used for the spawned obstacles.
@@ -73,7 +76,8 @@ public class Spawner : MonoBehaviour
             { // Spawn at most one obstacle per frame.
                 spawnAccumulator -= nextSpawnIn;
                 nextSpawnIn = RandomNormal(spawnFrequencyMean, spawnFrequencyStd);
-                
+                spawnSize = RandomNormal(sizeMean, sizeStd);//
+
                 SpawnObstacle();
             }
         }
@@ -132,7 +136,7 @@ public class Spawner : MonoBehaviour
         // Get obstacle layer to filter with.
         var obstacleLayer = LayerMask.NameToLayer(spawnLayer);
         // Modify only the x-axis movement.
-        var xMultiplier = new Vector2(multiplier, 1.0f);
+        var xMultiplier = new Vector2(multiplier, 1.0f);  //
         foreach (Transform child in transform)
         { // Iterate through all children, modifying current speed of obstacles.
             if (child.gameObject.layer == obstacleLayer) 
