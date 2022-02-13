@@ -138,9 +138,18 @@ public class DebugMenuUI : MonoBehaviour
                     { InventoryManager.Instance.availableCurrency = currency; }
                  */
                 
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("Currency: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var currency = (int) GUILayout.HorizontalSlider(InventoryManager.Instance.availableCurrency, 0.0f, 1000.0f, GUILayout.ExpandWidth(true));
+                    if (GUI.changed)
+                    {
+                        InventoryManager.Instance.availableCurrency = currency;
+                    }
+                }
+                GUILayout.EndHorizontal();
                 
-                
-                
+                //
                 
                 /*
                  * Task 3c: The Tool
@@ -158,15 +167,49 @@ public class DebugMenuUI : MonoBehaviour
                  *  * SoundManager.Instance.masterMuted: Allows muting of the sound.
                  *
                  * For this task, it may be useful to look at what elements are available:
-                 * https://docs.unity3d.com/2021.2/Documentation/Manual/gui-Controls.html
-                 * , but nota that you will probably want to use GUILayout instead of "GUI".
+                 * https://docs.unity3d.com/2021.2/Documentation/Manual/gui-Controls.html,
+                 * but note that you will probably want to use GUILayout instead of "GUI".
                  *
                  * This task can be considered as completed once all three handles can
                  * be controlled from the Cheat Console.
                  */
                 
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("Interactive: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var interactive = GUILayout.Toggle(GameManager.Instance.interactiveMode, "Interactive");
+                    if (GUI.changed)
+                    {
+                        GameManager.Instance.interactiveMode = interactive;
+                    }
+                }
+                GUILayout.EndHorizontal();
                 
                 
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("Volume: ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var volume = (int)GUILayout.HorizontalSlider(SoundManager.Instance.masterVolume, -80.0f, 20.0f, GUILayout.ExpandWidth(true));
+                    if (GUI.changed)
+                    {
+                        SoundManager.Instance.masterVolume = volume;
+                    }
+                }
+                GUILayout.EndHorizontal();
+
+                
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("        ", GUILayout.Width(WINDOW_DIMENSION.x / 4.0f));
+                    var muted = (bool)GUILayout.Toggle(SoundManager.Instance.masterMuted, "Muted");
+                    if (GUI.changed)
+                    {
+                        SoundManager.Instance.masterMuted = muted;
+                    }
+                }
+                GUILayout.EndHorizontal();
+
+                //
                 
                 
                 // Placing the elements next to each other.
@@ -193,10 +236,12 @@ public class DebugMenuUI : MonoBehaviour
                      * it was pressed. So, all you need to do is place the character-enabling
                      * code into the if statement and voila!
                      */
-                    if (GUILayout.Button("Enable\nDummy\nCharacter", 
-                        GUILayout.ExpandWidth(true), 
-                        GUILayout.ExpandHeight(true)))
-                    { /* Fill the code here! */ }
+                    if (GUILayout.Button("Enable\nDummy\nCharacter",
+                            GUILayout.ExpandWidth(true),
+                            GUILayout.ExpandHeight(true)))
+                    {   /* Fill the code here! */ 
+                        GameManager.Instance.TogglePlayerCharacter();
+                    }
                 }
                 GUILayout.EndHorizontal();
                 // Do not forget to end each group in the correct order!
